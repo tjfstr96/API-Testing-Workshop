@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "d9293684-158d-4ca4-a86b-627a17d532cf",
+		"_postman_id": "19c50e08-9379-4c02-a746-1cbe86faa1e8",
 		"name": "Restful Booker API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "22449893"
+		"_exporter_id": "23298187"
 	},
 	"item": [
 		{
@@ -16,7 +16,12 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"})"
 								],
 								"type": "text/javascript"
 							}
@@ -32,7 +37,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\" : \"admin\",\n    \"password\" : \"password123\"\n}"
+							"raw": "{\n    \"username\" : \"{{adminName}}\",\n    \"password\" : \"{{password}}\"\n}"
 						},
 						"url": {
 							"raw": "{{rb_url}}/auth",
@@ -137,7 +142,10 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"pm.test(\"Check price is correct\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.booking.totalprice).to.eql(139);",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -153,15 +161,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstname\" : \"{{firstname}}\",\n    \"lastname\" : \"{{lastname}}\",\n    \"totalprice\" : {{totalprice}},\n    \"depositpaid\" : {{depositpaid}},\n    \"bookingdates\" : {\n        \"checkin\" : \"{{checkin}}\",\n        \"checkout\" : \"{{checkout}}\"\n    },\n    \"additionalneeds\" : \"{{additionalneeds}}\"\n}"
+							"raw": "{\n    \"firstname\" : \"{{firstname}}\",\n    \"lastname\" : \"{{lastname}}\",\n    \"totalprice\" : 139,\n    \"depositpaid\" : {{depositpaid}},\n    \"bookingdates\" : {\n        \"checkin\" : \"{{checkin}}\",\n        \"checkout\" : \"{{checkout}}\"\n    },\n    \"additionalneeds\" : \"{{additionalneeds}}\"\n}"
 						},
 						"url": {
-							"raw": "{{rb_url}}/booking",
+							"raw": "{{rb_url}}/booking/",
 							"host": [
 								"{{rb_url}}"
 							],
 							"path": [
-								"booking"
+								"booking",
+								""
 							]
 						}
 					},
